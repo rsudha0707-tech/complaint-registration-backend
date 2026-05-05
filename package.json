@@ -1,0 +1,25 @@
+{
+  "name": "complaint-registration-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rsudha0707-tech/complaint-registration-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rsudha0707-tech/complaint-registration-backend/issues"
+  },
+  "homepage": "https://github.com/rsudha0707-tech/complaint-registration-backend#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
