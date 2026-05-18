@@ -1,0 +1,212 @@
+:root {
+  --primary-navy: #0A192F;
+  --secondary-navy: #112240;
+  --accent-gold: #D4AF37;
+  --accent-gold-hover: #F1C40F;
+  --text-light: #E6F1FF;
+  --text-muted: #8892B0;
+  --glass-bg: rgba(17, 34, 64, 0.7);
+  --glass-border: rgba(212, 175, 55, 0.15);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --success: #2ECC71;
+  --error: #E74C3C;
+  --bg-gradient: linear-gradient(135deg, #050B14 0%, #0A192F 100%);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-gradient);
+  color: var(--text-light);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .brand-text p, .badge { font-family: 'Outfit', sans-serif; }
+
+.ambient-bg {
+  position: fixed;
+  top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+              radial-gradient(circle at 80% 20%, rgba(46, 204, 113, 0.03) 0%, transparent 30%);
+  z-index: -1; animation: rotate 60s linear infinite;
+}
+
+@keyframes rotate { 100% { transform: rotate(360deg); } }
+
+.glass-header {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--glass-border);
+  position: sticky; top: 0; z-index: 100;
+}
+
+.header-container {
+  max-width: 1200px; margin: 0 auto; padding: 1rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.logo-group { display: flex; align-items: center; gap: 1rem; }
+.brand-logo { width: 50px; height: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+.brand-text h1 { font-size: 1.5rem; font-weight: 800; color: var(--accent-gold); letter-spacing: 1px; }
+.brand-text p { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* Hindi Slogan in Header */
+.header-slogan {
+  background: linear-gradient(90deg, #b22222, #000080); /* UP Police Red & Blue banner */
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  border: 1.5px solid var(--accent-gold);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+.slogan-text {
+  font-family: 'Outfit', sans-serif;
+  color: var(--accent-gold);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+/* Module Navigation */
+.module-nav {
+  display: flex; justify-content: center; gap: 0.5rem;
+  background: rgba(0,0,0,0.4); padding: 0.5rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.module-btn {
+  background: transparent; color: var(--text-muted); border: none;
+  padding: 0.8rem 1.5rem; border-radius: 8px; font-weight: 600;
+  transition: all 0.3s ease; cursor: pointer; font-family: 'Inter', sans-serif;
+}
+
+.module-btn:hover { background: rgba(255,255,255,0.05); color: var(--text-light); }
+.module-btn.active { background: var(--accent-gold); color: var(--primary-navy); }
+
+/* Main Content & Modules */
+.main-content { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+.module-view { animation: fadeIn 0.4s ease; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.hero-section { text-align: center; padding: 3rem 0 4rem; }
+.badge {
+  display: inline-block; background: rgba(212, 175, 55, 0.1); color: var(--accent-gold);
+  padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1.5rem; border: 1px solid rgba(212, 175, 55, 0.3);
+}
+.hero-content h2 { font-size: 3rem; line-height: 1.2; margin-bottom: 1.5rem; }
+.text-gradient { background: linear-gradient(to right, #D4AF37, #F1C40F, #FFF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-content p { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+
+/* Services Grid */
+.service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+.service-card {
+  background: var(--glass-bg); backdrop-filter: blur(12px); border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 2rem; transition: all 0.4s ease; cursor: pointer; text-align: center;
+}
+.service-card:hover { transform: translateY(-8px); border-color: rgba(212, 175, 55, 0.4); box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
+.card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.service-card h4 { font-size: 1.2rem; margin-bottom: 0.75rem; color: var(--text-light); }
+.service-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
+
+/* Panels & Forms */
+.glass-panel {
+  background: var(--glass-bg); backdrop-filter: blur(16px); border: 1px solid var(--glass-border);
+  border-radius: 20px; padding: 2.5rem; box-shadow: var(--glass-shadow); max-width: 650px; margin: 0 auto;
+}
+.panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.panel-header h3 { font-size: 1.5rem; color: var(--accent-gold); }
+.close-btn { background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
+.close-btn:hover { color: var(--text-light); }
+
+.form-group { margin-bottom: 1.5rem; text-align: left; }
+.form-group label { display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 500; }
+.form-group input {
+  width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1);
+  padding: 1rem; border-radius: 8px; color: var(--text-light); font-size: 1rem; font-family: 'Inter', sans-serif;
+}
+.form-group input:focus { outline: none; border-color: var(--accent-gold); background: rgba(0,0,0,0.4); }
+
+/* Form Row Grid */
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.form-row .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.file-upload-group input[type="file"] {
+  padding: 0.8rem; background: rgba(0,0,0,0.3); border: 1px dashed rgba(255,255,255,0.2); cursor: pointer;
+}
+.file-upload-group input[type="file"]:hover { border-color: var(--accent-gold); }
+
+/* Google Login & Separator */
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.separator::before, .separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.separator:not(:empty)::before { margin-right: .5em; }
+.separator:not(:empty)::after { margin-left: .5em; }
+
+.btn-google {
+  background: #ffffff;
+  color: #1f1f1f;
+  border: 1px solid #dadce0;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+.btn-google:hover {
+  background: #f7f9fa;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.google-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--accent-gold); color: var(--primary-navy); border: none; padding: 0.8rem 1.5rem;
+  border-radius: 8px; font-weight: 600; font-size: 1rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); cursor: pointer; transition: all 0.3s ease; font-family: 'Inter', sans-serif;
+}
+.btn-primary:hover { background: var(--accent-gold-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4); }
+.w-100 { width: 100%; }
+.mt-4 { margin-top: 1rem; }
+
+.glass-footer {
+  text-align: center; padding: 2rem; border-top: 1px solid var(--glass-border);
+  background: var(--glass-bg); color: var(--text-muted); font-size: 0.9rem; margin-top: 4rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-container { flex-direction: column; gap: 1rem; }
+  .module-nav { flex-wrap: wrap; }
+  .form-row { flex-direction: column; gap: 1rem; }
+}
