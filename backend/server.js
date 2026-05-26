@@ -3,9 +3,10 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const { createClient } = require('@supabase/supabase-js');
+const nodemailer = require('nodemailer');
 
 const app = express();
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 3000;
 
 // Initialize Supabase
 const supabaseUrl = process.env.SUPABASE_URL || 'https://placeholder.supabase.co';
@@ -24,8 +25,8 @@ const upload = multer({ storage: storage });
 
 // --- AUTH ROUTES ---
 
-// Send OTP to Email (Mock)
-app.post('/api/auth/send-otp', (req, res) => {
+// Send OTP to Email
+app.post('/api/auth/send-otp', async (req, res) => {
   const { email } = req.body;
   if (!email || !email.includes('@')) {
     return res.status(400).json({ error: 'Valid email address required.' });
@@ -34,13 +35,72 @@ app.post('/api/auth/send-otp', (req, res) => {
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   otpStore.set(email, otp);
 
+  // Always log mock to console as a backup
   console.log(`\n==================================================`);
   console.log(`[EMAIL MOCK] To: ${email}`);
   console.log(`[EMAIL MOCK] Subject: Uttar Pradesh Police IOVS Verification OTP`);
   console.log(`[EMAIL MOCK] Message: Your 6-digit verification OTP is: ${otp}`);
   console.log(`==================================================\n`);
 
-  res.json({ success: true, message: 'OTP sent successfully.' });
+  // Check if SMTP configuration is set in .env
+  const { EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASS } = process.env;
+  const isSmtpConfigured = EMAIL_HOST && EMAIL_USER && EMAIL_PASS && 
+                           EMAIL_USER !== 'your_email@gmail.com' && 
+                           EMAIL_PASS !== 'your_gmail_app_password';
+
+  if (isSmtpConfigured) {
+    try {
+      const transporter = nodemailer.createTransport({
+        host: EMAIL_HOST,
+        port: parseInt(EMAIL_PORT) || 587,
+        secure: parseInt(EMAIL_PORT) === 465, // true for 465, false for other ports
+        auth: {
+          user: EMAIL_USER,
+          pass: EMAIL_PASS,
+        },
+      });
+
+      const mailOptions = {
+        from: `"IOVS UP Police" <${EMAIL_USER}>`,
+        to: email,
+        subject: 'Uttar Pradesh Police IOVS Verification OTP',
+        text: `Your 6-digit verification OTP for the Integrated Online Verification System is: ${otp}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
+            <h2 style="color: #d4af37; text-align: center;">Uttar Pradesh Police</h2>
+            <h3 style="text-align: center;">Integrated Online Verification System (IOVS)</h3>
+            <hr style="border: 0; border-top: 1px solid #e0e0e0;">
+            <p>Dear Citizen,</p>
+            <p>You have requested a secure verification OTP to log in to the IOVS Portal.</p>
+            <div style="background-color: #f9f9f9; border: 1px dashed #d4af37; padding: 15px; text-align: center; margin: 20px 0; border-radius: 6px;">
+              <span style="font-size: 24px; font-weight: bold; letter-spacing: 5px; color: #1a2a6c;">${otp}</span>
+            </div>
+            <p>Please enter this code on the verification screen. This OTP is valid for 10 minutes.</p>
+            <p style="font-size: 12px; color: #777;">If you did not request this OTP, please ignore this email.</p>
+            <hr style="border: 0; border-top: 1px solid #e0e0e0;">
+            <p style="font-size: 12px; color: #999; text-align: center;">&copy; 2026 Uttar Pradesh Police. All rights reserved.</p>
+          </div>
+        `,
+      };
+
+      await transporter.sendMail(mailOptions);
+      console.log(`[EMAIL REAL] OTP sent successfully to ${email}`);
+      return res.json({ success: true, message: 'OTP sent to your email.' });
+    } catch (error) {
+      console.error('[EMAIL REAL] Failed to send email via SMTP:', error);
+      // Fall back to showing mock message (so it doesn't block local development/testing)
+      return res.json({ 
+        success: true, 
+        message: 'OTP sent (fall back to mock console output due to mail error).' 
+      });
+    }
+  }
+
+  // If not configured, just respond that we sent it (mocked)
+  res.json({ 
+    success: true, 
+    message: 'OTP sent (mock mode). Check your backend console logs for the code.' 
+  });
 });
 
 // Verify OTP
